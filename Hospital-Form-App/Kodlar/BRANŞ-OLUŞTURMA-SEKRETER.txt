@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace KAAN_BALCI_20222425006_C__PROJECT
+{
+    public partial class FrmBransPaneli : Form
+    {
+        public FrmBransPaneli()
+        {
+            InitializeComponent();
+        }
+        sqlbaglantisi bgl = new sqlbaglantisi();
+        private void FrmBransPaneli_Load(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("Select * From Tbl_Branslar",bgl.baglanti());
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+
+        }
+
+        private void ekleBtn_Click(object sender, EventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("insert into Tbl_Branslar (BransAd) values (@b1)", bgl.baglanti());
+            cmd.Parameters.AddWithValue("@b1",bransAdTxt.Text);
+            cmd.ExecuteNonQuery();
+            bgl.baglanti().Close();
+            MessageBox.Show("Branş Eklendi","Bilgi",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int secilen = dataGridView1.SelectedCells[0].RowIndex;
+            bransidTxt.Text = dataGridView1.Rows[secilen].Cells[0].Value.ToString();
+            bransAdTxt.Text = dataGridView1.Rows[secilen].Cells[1].Value.ToString();
+        }
+
+        private void silBtn_Click(object sender, EventArgs e)
+        {
+            SqlCommand komutsil = new SqlCommand("Delete from Tbl_Branslar where Bransid=@b1", bgl.baglanti());
+            komutsil.Parameters.AddWithValue("@b1",bransidTxt.Text);
+            komutsil.ExecuteNonQuery();
+            bgl.baglanti().Close();
+            MessageBox.Show("Branş Silindi","Uyarı",MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void guncelleBtn_Click(object sender, EventArgs e)
+        {
+            SqlCommand komutgn = new SqlCommand("Update Tbl_Branslar set Bransad = @p1 where Bransid=@p2", bgl.baglanti());
+            komutgn.Parameters.AddWithValue("@p1", bransAdTxt.Text);
+            komutgn.Parameters.AddWithValue("@p2", bransidTxt.Text);
+            komutgn.ExecuteNonQuery();
+            bgl.baglanti().Close();
+            MessageBox.Show("Branş Güncellendi", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+    }
+}

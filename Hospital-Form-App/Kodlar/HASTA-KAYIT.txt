@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace KAAN_BALCI_20222425006_C__PROJECT
+{
+    public partial class FrmHastaKayıt : Form
+    {
+        public FrmHastaKayıt()
+        {
+            InitializeComponent();
+        }
+        sqlbaglantisi bgl =new sqlbaglantisi();
+
+       
+
+        private void kayitBtn_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(adTxt.Text) && !string.IsNullOrWhiteSpace(soyadTxt.Text) && !string.IsNullOrWhiteSpace(tcMskTxt.Text) && !string.IsNullOrWhiteSpace(telMskTxt.Text) && !string.IsNullOrWhiteSpace(sifreTxt.Text) && comboBox1.SelectedItem != null && checkBox1.Checked)
+            {
+                SqlCommand komut = new SqlCommand("INSERT INTO Tbl_Hastalar (HastaAd, HastaSoyad, HastaTc, HastaTelefon, HastaSifre, HastaCinsiyet) VALUES (@p1, @p2, @p3, @p4, @p5, @p6)", bgl.baglanti());
+                string tc = tcMskTxt.Text.ToString();
+                string tel = telMskTxt.Text.ToString();
+                string cinsiyet = comboBox1.SelectedItem.ToString();
+                string sifre = sifreTxt.Text.ToString();
+
+                komut.Parameters.AddWithValue("@p1", adTxt.Text);
+                komut.Parameters.AddWithValue("@p2", soyadTxt.Text);
+                komut.Parameters.AddWithValue("@p3", tc);
+                komut.Parameters.AddWithValue("@p4", tel);
+                komut.Parameters.AddWithValue("@p5", sifre);
+                komut.Parameters.AddWithValue("@p6", cinsiyet);
+                komut.ExecuteNonQuery();
+
+                bgl.baglanti().Close();
+                MessageBox.Show("Kaydınız Gerçekleşmiştir Şifreniz : " + sifreTxt.Text, "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+                FrmHastaGiris fr = new FrmHastaGiris();
+                fr.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Lütfen tüm alanları doldurun ve aydınlatma metnini kabul edin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+            private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://e-hastanerandevu.deu.edu.tr/Content/Document/aydınlatmametni.pdf");
+        }
+
+        private void temizleBtn_Click(object sender, EventArgs e)
+        {
+            adTxt.Clear();
+            soyadTxt.Clear();
+            tcMskTxt.Clear();
+            telMskTxt.Clear();
+            sifreTxt.Clear();
+            comboBox1.SelectedItem = null;
+            checkBox1.Checked = false;
+        }
+
+        
+    }
+}

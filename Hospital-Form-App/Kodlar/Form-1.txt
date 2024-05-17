@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace KAAN_BALCI_20222425006_C__PROJECT
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btn_Hastalar_Click(object sender, EventArgs e)
+        {
+          FrmHastaSecim fr = new FrmHastaSecim();
+            fr.Show();
+            this.Hide();
+
+
+        }
+
+        private void btn_Doktorlar_Click(object sender, EventArgs e)
+        {
+            FrmDoktorGiris fr = new FrmDoktorGiris();
+            fr.Show();
+            this.Hide();
+        }
+
+        private void btn_Sekreterler_Click(object sender, EventArgs e)
+        {
+            FrmSekreterGiris fr = new FrmSekreterGiris();
+            fr.Show();
+            this.Hide();
+        }
+    }
+}

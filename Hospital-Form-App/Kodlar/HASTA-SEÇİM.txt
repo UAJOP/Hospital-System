@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace KAAN_BALCI_20222425006_C__PROJECT
+{
+    public partial class FrmHastaSecim : Form
+    {
+        public FrmHastaSecim()
+        {
+            InitializeComponent();
+        }
+
+        private void girisBtn_Click(object sender, EventArgs e)
+        {
+            FrmHastaGiris fr = new FrmHastaGiris();
+            fr.Show();
+            this.Hide();
+        }
+
+        private void kayitBtn_Click(object sender, EventArgs e)
+        {
+            FrmHastaKayıt fr = new FrmHastaKayıt();
+            fr.Show();
+            this.Hide();    
+        }
+    }
+}
